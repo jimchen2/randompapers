@@ -14,11 +14,10 @@ GAN: GAN Generator and GAN Discriminator in opposition
 
 Pearl's Hierarchy:
 
-L1: height (5'10), city (Moscow), parental net worth (3M dollars), major (CS), activity (scrolling), dating success (0)
+L1: height (5'10), city (Moscow), age (20), parental net worth (3M dollars), major (CS), activity (scrolling), dating success (0)
 L2: hard intervention: do(increase parental net worth now) -> dating success? realistic soft intervention: do(read Pushkin for 2 hours) -> dating success?
 L3: (backwards in time) if Dima's city was Piter instead of Moscow, how does other factors change? if Dima had majored in literature (took the EGE differently)? -> dating success?
 
-Entangled Learning: Everything mixed, you don't know which vector corresponds to age, major
-Disentangled Learning: Separate dimensions of the vector maps to age, height, city, parental net worth, etc (but if Dima is 31, shouldn't you also change his salary?)
-
-Causal Representation Learning: Variables influence each other: Age -> Salary, Out of University -> Activity
+Entangled Learning: Everything mixed, you don't know which dimension of the vector corresponds to age or major
+Disentangled Learning: Isolated variables map to age, height, city, parental net worth, etc (but if Dima is 30, shouldn't you also change his salary?)
+Causal Representation Learning: Variables influence each other: age -> salary, major -> activity
