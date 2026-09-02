@@ -65,6 +65,8 @@ Causality is about algorithms, not about distributions.
   * Fluid outflow trajectory (causal variable)
 
 
+Code Output
+
 ```
 Epoch [000/101] | Loss: 3.0609 | KL: 8.9177 | Rec: 0.1894 | h(A): 0.012953 | Beta: 0.02
 Epoch [020/101] | Loss: 8.9007 | KL: 3.8823 | Rec: 0.0899 | h(A): 0.002882 | Beta: 0.42
