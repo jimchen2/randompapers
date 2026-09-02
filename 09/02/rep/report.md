@@ -90,6 +90,15 @@ Epoch [100/101] | Loss: 16.7545 | KL: 1.2056 | Rec: 0.0893 | h(A): 0.010355 | Be
   * *Independent Mechanisms (ICM):* Changing one causal module leaves others invariant.
   * *Sparse Shifts:* Interventions alter only a minimal subset of mechanisms.
 
+CausalVAE
+
+DEAR
+
+SCM-VAE
+
+ICM-VAE
+
+TODO
 
 ---
 
