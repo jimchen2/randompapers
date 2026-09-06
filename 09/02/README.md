@@ -70,7 +70,7 @@ Independence of Causality
 
 Causality is about algorithms, not about distributions. Random Variables can be dependent - even if the causal mechanisms are independent.
 
-## [2310.11011 Survey on Causal Generative Modeling](https://arxiv.org/pdf/2310.11011)
+## [2310.11011 Survey on Causal Generative Modeling, Komanduri](https://arxiv.org/pdf/2310.11011)
 
 - Encoder-Text: Looks back and ahead -> Vectors/probability (BERT masked words) 
 - Decoder-Text: No look-ahead -> Probability (decoder-only LLM transformers) 
