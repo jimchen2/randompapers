@@ -1,3 +1,26 @@
+
+
+
+
+
+
+
+
+
+--- 
+--- 
+--- 
+--- 
+--- 
+--- 
+--- 
+--- 
+--- 
+--- 
+--- 
+--- 
+--- 
+
 About consumer interfaces (like "https://chatgpt.com/" or "https://gemini.google.com/")
 
 - LLM models cannot change their weights between different sessions to the best of my knowledge - they are all running on pretrained weights
