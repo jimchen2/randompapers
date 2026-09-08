@@ -1,11 +1,6 @@
-## Toward Causal AI - Elias Bareinboim
+## Video: Toward Causal AI - Elias Bareinboim
 
-
-
-
-
-
-
+3 Casual Hierarchies: See/Do/Imagine
 
 
 
