@@ -6,8 +6,9 @@ How do L1 know about L2? Use L1 data to learn the model.
 
 Counterfactual Generation
 
+## Video: Causality, part 1
 
-
+Conditional Independent
 
 
 
