@@ -9,4 +9,3 @@
 
 - https://youtu.be/9DJWJpn0DmU
 - https://youtu.be/btmJtThWmhA
-- https://youtu.be/lQturj3KjZ4

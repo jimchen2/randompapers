@@ -2,7 +2,9 @@
 
 3 Casual Hierarchies: See/Do/Imagine
 
+How do L1 know about L2? Use L1 data to learn the model.
 
+Counterfactual Generation
 
 
 
