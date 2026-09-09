@@ -9,3 +9,5 @@
 
 - https://youtu.be/9DJWJpn0DmU
 - https://youtu.be/btmJtThWmhA
+
+https://github.com/galilai-group/cjepa
