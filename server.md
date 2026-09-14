@@ -31,3 +31,10 @@ mv pusht_videosaur_1_epoch_30_object.ckpt ~/.stable_worldmodel/checkpoints/pusht
 # --- Evaluation Execution ---
 cd cjepa
 bash scripts/pusht/test_planning.sh
+
+
+
+
+
+
+already:git clone https://github.com/galilai-group/stable-pretraining.gitMove into the directory:cd stable-pretrainingInstall the package locally:pip install -e . [1] (https://github.com/galilai-group/stable-pretraining)
