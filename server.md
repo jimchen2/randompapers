@@ -56,15 +56,12 @@ already:git clone https://github.com/galilai-group/stable-pretraining.gitMove in
   173  ls
   174  ModuleNotFoundError: No module named 'stable_worldmodel'
   175  pip install stable-worldmodel
-  176  clera
-  177  clear
-  178  bash scripts/pusht/test_planning.sh
   179  pip install imageio
-  180  clear
-  181  bash scripts/pusht/test_planning.sh
-  182  pip install ale-py
   183  clear
   184  bash scripts/pusht/test_planning.sh
   185  clear
   186  history
-(cjepa) jichen@uark.edu@eecs-s-sail2025:~/Downloads/cjepa$ 
+
+
+
+pip install 'stable-worldmodel[env]'
