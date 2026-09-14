@@ -28,40 +28,10 @@ wget https://huggingface.co/HazelNam/CJEPA/resolve/main/cjepa-ckpts/pusht_videos
 mkdir -p ~/.stable_worldmodel/checkpoints/
 mv pusht_videosaur_1_epoch_30_object.ckpt ~/.stable_worldmodel/checkpoints/pusht_videosaur_1_object.ckpt
 
-# --- Evaluation Execution ---
-cd cjepa
+
+git clone https://github.com/galilai-group/stable-pretraining.git
+cd stable-pretraining/
+pip install -e .
+pip install 'stable-worldmodel[env]'
 bash scripts/pusht/test_planning.sh
 
-
-
-
-
-
-already:git clone https://github.com/galilai-group/stable-pretraining.gitMove into the directory:cd stable-pretrainingInstall the package locally:pip install -e . [1] (https://github.com/galilai-group/stable-pretraining)
-
-
-
-  161  git clone https://github.com/galilai-group/stable-pretraining.git
-  162  ls
-  163  cd stable-pretraining/
-  164  pip install -e . [1] (https://github.com/galilai-group/stable-pretraining)
-  165  pip install -e .
-  166  clear
-  167  cd ..
-  168  ls
-  169  cd cjepa/
-  170  clear
-  171  ls
-  172  bash scripts/pusht/test_planning.sh
-  173  ls
-  174  ModuleNotFoundError: No module named 'stable_worldmodel'
-  175  pip install stable-worldmodel
-  179  pip install imageio
-  183  clear
-  184  bash scripts/pusht/test_planning.sh
-  185  clear
-  186  history
-
-
-
-pip install 'stable-worldmodel[env]'
