@@ -33,5 +33,4 @@ git clone https://github.com/galilai-group/stable-pretraining.git
 cd stable-pretraining/
 pip install -e .
 pip install 'stable-worldmodel[env]'
-bash scripts/pusht/test_planning.sh
-
+WANDB_MODE=disabled bash scripts/pusht/test_planning.sh
