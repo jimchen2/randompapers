@@ -1,5 +1,5 @@
 1. Use agents to prepare the environment, it is much easier
-(but Claude code agent locally cost me 8 dollars on one run, around 100 sessions with Opus 5)
+(but Claude code agent locally cost me 8 dollars on one run, around 100 sessions with Opus 5, arena is free but they have a very small cloud platform)
 
 
 
