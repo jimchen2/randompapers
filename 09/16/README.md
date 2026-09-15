@@ -1,4 +1,12 @@
 ```
+cat > /tmp/cjepa_eval.sh <<'SH'
+set -u
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate cjepa
+cd /home/jichen/Downloads/cjepa
+export PYTHONPATH=$(pwd)
+export HYDRA_FULL_ERROR=1
+export LD_LIBRARY_PATH=$HOME/miniconda3/envs/cjepa/lib/python3.10/site-packages/nvidia/cudnn/lib:${LD_LIBRARY_PATH:-}
 POLICY="pusht_videosaur_1"
 for SEED in 0 1 2; do
   echo "=== seed=${SEED} start $(date)"
@@ -18,6 +26,10 @@ for SEED in 0 1 2; do
     wandb.use_wandb=false
   echo "=== seed=${SEED} done $(date)"
 done
+echo "ALL DONE $(date)"
+SH
+
+nohup bash /tmp/cjepa_eval.sh > /tmp/cjepa_eval.log 2>&1 &
 ```
 
 
