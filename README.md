@@ -28,3 +28,5 @@ for arena agents
   setTimeout(expandTargetButtons, 200);
 })();
 ```
+
+This library is useful: https://github.com/pdenya/ccbashhistory
