@@ -18,8 +18,12 @@ https://arxiv.org/abs/2602.11389
 - https://arxiv.org/abs/2401.02602
 - https://arxiv.org/pdf/2602.11389
 
-- https://youtu.be/9DJWJpn0DmU
-- https://youtu.be/btmJtThWmhA
+
+
+23:37-1:20:00
+
+https://www.youtube.com/watch?v=9DJWJpn0DmU&list=PLa1nV9NMvC6cejJg3LNw47ETopwM-CPgT&index=3
+
 
 https://github.com/galilai-group/cjepa
 
