@@ -7,7 +7,7 @@ rm miniconda.sh
 
 source $HOME/miniconda3/bin/activate
 conda init bash
-conda create -n cjepa python=3.12 -y
+conda create -n cjepa python=3.10 -y
 conda activate cjepa
 conda install -y ffmpeg
 pip install --upgrade pip uv
