@@ -41,13 +41,33 @@ nohup bash /tmp/cjepa_eval.sh > /tmp/cjepa_eval.log 2>&1 &
 
 
 
-
 | Seed | Episodes ($N$) | Successes | Success Rate (%) | Total CEM Time (s) | Wall Time (s) |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | 0 | 50 | 47 | 94.0 | 834.0 | 1253 |
 | 1 | 50 | 44 | 88.0 | 824.2 | 1240 |
 | 2 | 50 | 44 | 88.0 | 825.5 | 1239 |
 | **Total / Mean** | **150** | **135** | **90.0 $\pm$ 3.46\*** | **827.9 (mean)** | **3732 (62.2 min)** |
+
+
+### `pusht_videosaur_0`
+
+| Seed | Episodes ($N$) | Successes | Success Rate (%) | Total CEM Time (s) | Wall Time (s) |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| 0 | 50 | 42 | 84.0 | 840.8 | 1258 |
+| 1 | 50 | 32 | 64.0 | 835.5 | 1253 |
+| 2 | 50 | 38 | 76.0 | 835.3 | 1244 |
+| **Total / Mean** | **150** | **112** | **74.7 $\pm$ 10.1** | **837.2 (mean)** | **3755 (62.6 min)** |
+
+---
+
+### `pusht_videosaur_2`
+
+| Seed | Episodes ($N$) | Successes | Success Rate (%) | Total CEM Time (s) | Wall Time (s) |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| 0 | 50 | 44 | 88.0 | 834.4 | 1255 |
+| 1 | 50 | 39 | 78.0 | 845.9 | 1262 |
+| 2 | 50 | 41 | 82.0 | 812.6 | 1234 |
+| **Total / Mean** | **150** | **124** | **82.7 $\pm$ 5.0** | **831.0 (mean)** | **3751 (62.5 min)** |
 
 ```
 
