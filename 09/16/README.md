@@ -1,7 +1,3 @@
-What can you do?
-
-Training
-Testing
 
 ## `pusht_videosaur`
 
