@@ -99,162 +99,11 @@ The evaluation runs produced the following result files in `src/plan/`:
 * `src/plan/planning_pusht_videosaur_1_seed_2.txt`
 * `src/plan/smoke.txt` (from initial verification runs)
 
-## Commands 
+## Commands
 
-Here are all the evaluation commands executed, in chronological order:
+Here is the command used for the actual evaluation run (from Command 86):
 
-### 1. Initial Evaluation Smoke Tests (Debugging Phase)
-
-**First smoke test attempt (Command 42):**
-```bash
-cd /home/jichen/Downloads/cjepa
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate cjepa
-export PYTHONPATH=$(pwd)
-export HYDRA_FULL_ERROR=1
-
-timeout 900 python src/plan/run.py \
-  seed=0 \
-  policy=pusht_videosaur_1 \
-  world.history_size=1 \
-  world.frame_skip=1 \
-  plan_config.horizon=5 \
-  plan_config.receding_horizon=5 \
-  plan_config.action_block=5 \
-  eval.eval_budget=25 \
-  eval.num_eval=2 \
-  output.filename=smoke.txt \
-  eval.dataset_name=pusht_expert_train \
-  eval.goal_offset_steps=25 \
-  wandb.use_wandb=false
-```
-
-**Smoke test re-run after updating `datasets` (Command 51):**
-```bash
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate cjepa
-export PYTHONPATH=$(pwd)
-export HYDRA_FULL_ERROR=1
-
-timeout 1200 python src/plan/run.py \
-  seed=0 \
-  policy=pusht_videosaur_1 \
-  world.history_size=1 \
-  world.frame_skip=1 \
-  plan_config.horizon=5 \
-  plan_config.receding_horizon=5 \
-  plan_config.action_block=5 \
-  eval.eval_budget=25 \
-  eval.num_eval=2 \
-  output.filename=smoke.txt \
-  eval.dataset_name=pusht_expert_train \
-  eval.goal_offset_steps=25 \
-  wandb.use_wandb=false
-```
-
-**Smoke test with explicit `cache_dir` (Command 53):**
-```bash
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate cjepa
-export PYTHONPATH=$(pwd)
-export HYDRA_FULL_ERROR=1
-
-timeout 1800 python src/plan/run.py \
-  seed=0 \
-  policy=pusht_videosaur_1 \
-  cache_dir=/home/jichen/.stable_worldmodel \
-  world.history_size=1 \
-  world.frame_skip=1 \
-  plan_config.horizon=5 \
-  plan_config.receding_horizon=5 \
-  plan_config.action_block=5 \
-  eval.eval_budget=25 \
-  eval.num_eval=2 \
-  output.filename=smoke.txt \
-  eval.dataset_name=pusht_expert_train \
-  eval.goal_offset_steps=25 \
-  wandb.use_wandb=false
-```
-
-**Smoke test after creating `custom_models` shim (Command 59):**
-```bash
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate cjepa
-export PYTHONPATH=$(pwd)
-export HYDRA_FULL_ERROR=1
-
-timeout 1800 python src/plan/run.py \
-  seed=0 \
-  policy=pusht_videosaur_1 \
-  cache_dir=/home/jichen/.stable_worldmodel \
-  world.history_size=1 \
-  world.frame_skip=1 \
-  plan_config.horizon=5 \
-  plan_config.receding_horizon=5 \
-  plan_config.action_block=5 \
-  eval.eval_budget=25 \
-  eval.num_eval=2 \
-  output.filename=smoke.txt \
-  eval.dataset_name=pusht_expert_train \
-  eval.goal_offset_steps=25 \
-  wandb.use_wandb=false
-```
-
-**Smoke test with `LD_LIBRARY_PATH` cuDNN fix (Command 63):**
-```bash
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate cjepa
-export PYTHONPATH=$(pwd)
-export HYDRA_FULL_ERROR=1
-export LD_LIBRARY_PATH=$HOME/miniconda3/envs/cjepa/lib/python3.10/site-packages/nvidia/cudnn/lib:$LD_LIBRARY_PATH
-
-timeout 1800 python src/plan/run.py \
-  seed=0 \
-  policy=pusht_videosaur_1 \
-  cache_dir=/home/jichen/.stable_worldmodel \
-  world.history_size=1 \
-  world.frame_skip=1 \
-  plan_config.horizon=5 \
-  plan_config.receding_horizon=5 \
-  plan_config.action_block=5 \
-  eval.eval_budget=25 \
-  eval.num_eval=2 \
-  output.filename=smoke.txt \
-  eval.dataset_name=pusht_expert_train \
-  eval.goal_offset_steps=25 \
-  wandb.use_wandb=false
-```
-
-**Final smoke test verification after transformers hook patch (Command 85):**
-```bash
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate cjepa
-export PYTHONPATH=$(pwd)
-export HYDRA_FULL_ERROR=1
-export LD_LIBRARY_PATH=$HOME/miniconda3/envs/cjepa/lib/python3.10/site-packages/nvidia/cudnn/lib:$LD_LIBRARY_PATH
-
-timeout 2400 python src/plan/run.py \
-  seed=0 \
-  policy=pusht_videosaur_1 \
-  cache_dir=/home/jichen/.stable_worldmodel \
-  world.history_size=1 \
-  world.frame_skip=1 \
-  plan_config.horizon=5 \
-  plan_config.receding_horizon=5 \
-  plan_config.action_block=5 \
-  eval.eval_budget=25 \
-  eval.num_eval=2 \
-  output.filename=smoke.txt \
-  eval.dataset_name=pusht_expert_train \
-  eval.goal_offset_steps=25 \
-  wandb.use_wandb=false
-```
-
----
-
-### 2. Full Multi-Seed Evaluation Run (Command 86)
-
-**Creation of script `/tmp/cjepa_eval.sh`:**
+### 1. Write the Evaluation Script (`/tmp/cjepa_eval.sh`)
 ```bash
 cat > /tmp/cjepa_eval.sh <<'SH'
 set -u
@@ -287,7 +136,7 @@ echo "ALL DONE $(date)"
 SH
 ```
 
-**Background execution:**
+### 2. Launch Evaluation in Background
 ```bash
 nohup bash /tmp/cjepa_eval.sh > /tmp/cjepa_eval.log 2>&1 &
 ```
