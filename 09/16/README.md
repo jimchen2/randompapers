@@ -15,8 +15,49 @@ python src/third_party/slotformer/base_slots/extract_videosaur.py \
     --params="src/third_party/slotformer/aloe_pusht_params.py"
 ```
 
+### Download Databases
+
+```
+conda activate cjepa
+cd /home/jichen/Downloads/cjepa
+
+wget -nc https://huggingface.co/HazelNam/CJEPA/resolve/main/pusht_expert_action_meta.pkl
+wget -nc https://huggingface.co/HazelNam/CJEPA/resolve/main/pusht_expert_proprio_meta.pkl
+wget -nc https://huggingface.co/HazelNam/CJEPA/resolve/main/pusht_expert_state_meta.pkl
+```
+
+### Running the Script
+
+```
+nohup python src/train/train_causalwm_AP_node_pusht_slot.py \
+    cache_dir="/home/jichen/.stable_worldmodel" \
+    output_model_name="pusht_cjepa" \
+    dataset_name="pusht_expert" \
+    num_workers=8 \
+    batch_size=256 \
+    trainer.max_epochs=30 \
+    num_masked_slots=1 \
+    predictor_lr=5e-4 \
+    proprio_encoder_lr=1e-4 \
+    action_encoder_lr=5e-4 \
+    dinowm.history_size=3 \
+    dinowm.num_preds=1 \
+    dinowm.proprio_embed_dim=128 \
+    dinowm.action_embed_dim=128 \
+    frameskip=5 \
+    videosaur.NUM_SLOTS=4 \
+    videosaur.SLOT_DIM=128 \
+    predictor.heads=16 \
+    embedding_dir="/home/jichen/Downloads/cjepa/pusht_videosaur_slots.pkl" \
+    model.load_weights="/home/jichen/Downloads/pusht_videosaur_model.ckpt" \
+    action_dir="/home/jichen/Downloads/cjepa/pusht_expert_action_meta.pkl" \
+    proprio_dir="/home/jichen/Downloads/cjepa/pusht_expert_proprio_meta.pkl" \
+    state_dir="/home/jichen/Downloads/cjepa/pusht_expert_state_meta.pkl" \
+    use_hungarian_matching=false > train_pusht.log 2>&1 &
+```
 
 
+## Testing
 
 
 ## `pusht_videosaur`
