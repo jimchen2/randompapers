@@ -11,3 +11,20 @@
 - https://youtu.be/btmJtThWmhA
 
 https://github.com/galilai-group/cjepa
+
+
+for arena agents
+
+```
+(function expandTargetButtons() {
+  const targets = Array.from(document.querySelectorAll('button[aria-expanded="false"]')).filter(btn => {
+    const text = btn.innerText.toLowerCase();
+    return text.includes("ran commands") || text.includes("used\nbash") || text.includes("used bash");
+  });
+
+  if (targets.length === 0) return;
+
+  targets.forEach(btn => btn.click());
+  setTimeout(expandTargetButtons, 200);
+})();
+```
