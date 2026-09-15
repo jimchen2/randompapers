@@ -3,7 +3,7 @@ What can you do?
 Training
 Testing
 
-## `pusht_videosaur_1`
+## `pusht_videosaur`
 
 ```
 cat > /tmp/cjepa_eval.sh <<'SH'
@@ -48,6 +48,40 @@ nohup bash /tmp/cjepa_eval.sh > /tmp/cjepa_eval.log 2>&1 &
 | 1 | 50 | 44 | 88.0 | 824.2 | 1240 |
 | 2 | 50 | 44 | 88.0 | 825.5 | 1239 |
 | **Total / Mean** | **150** | **135** | **90.0 $\pm$ 3.46\*** | **827.9 (mean)** | **3732 (62.2 min)** |
+
+```
+
+export PYTHONPATH=$(pwd)
+export HYDRA_FULL_ERROR=1
+export LD_LIBRARY_PATH=$HOME/miniconda3/envs/cjepa/lib/python3.10/site-packages/nvidia/cudnn/lib:${LD_LIBRARY_PATH:-}
+
+for POLICY in pusht_videosaur_0 pusht_videosaur_2; do
+  for SEED in 0 1 2; do
+    echo "=== [${POLICY}] seed=${SEED} start $(date)"
+    python src/plan/run.py \
+      seed=${SEED} \
+      policy=${POLICY} \
+      cache_dir=/home/jichen/.stable_worldmodel \
+      world.history_size=1 \
+      world.frame_skip=1 \
+      plan_config.horizon=5 \
+      plan_config.receding_horizon=5 \
+      plan_config.action_block=5 \
+      eval.eval_budget=50 \
+      output.filename=planning_${POLICY}_seed_${SEED}.txt \
+      eval.dataset_name=pusht_expert_train \
+      eval.goal_offset_steps=25 \
+      wandb.use_wandb=false
+    echo "=== [${POLICY}] seed=${SEED} done $(date)"
+  done
+done
+
+echo "ALL DONE $(date)"
+SH
+
+nohup /tmp/run_pusht_eval_0_2.sh > /tmp/pusht_eval_0_2.log 2>&1 &
+```
+
 
 
 ## Environment
