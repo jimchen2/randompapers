@@ -140,3 +140,13 @@ SH
 ```bash
 nohup bash /tmp/cjepa_eval.sh > /tmp/cjepa_eval.log 2>&1 &
 ```
+
+
+
+
+| Seed | Episodes ($N$) | Successes | Success Rate (%) | Wall Time (s) |
+| :---: | :---: | :---: | :---: | :---: |
+| 0 | 50 | 46 | 92.0% | 890.4s |
+| 1 | 50 | 43 | 86.0% | 881.1s |
+| 2 | 50 | 43 | 86.0% | 881.1s |
+| **Overall** | **150** | **132** | **88.0% $\pm$ 3.46% (sample SD)** | **44.2 min total** |
