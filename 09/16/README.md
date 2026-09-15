@@ -9,7 +9,7 @@ export LD_LIBRARY_PATH=$HOME/miniconda3/envs/cjepa/lib/python3.10/site-packages/
 python src/third_party/slotformer/base_slots/extract_videosaur.py \
     --weight "../pusht_videosaur_model.ckpt" \
     --data_root="/home/jichen/.stable_worldmodel" \
-    --save_path="pusht_videosaur_slots.pkl" \
+    --save_path="./pusht_videosaur_slots.pkl" \
     --dataset="pusht_expert" \
     --videosaur_config="src/third_party/videosaur/configs/videosaur/pusht_dinov2_hf.yml" \
     --params="src/third_party/slotformer/aloe_pusht_params.py"
