@@ -68,7 +68,7 @@ python src/train/train_causalwm_AP_node_pusht_slot.py \
 EOF
 
 chmod +x /tmp/run_train_pusht.sh
-WANDB_MODE=offline nohup /tmp/run_train_pusht.sh > /tmp/train_pusht.log 2>&1 &
+WANDB_MODE=disabled nohup /tmp/run_train_pusht.sh > /tmp/train_pusht.log 2>&1 &
 ```
 
 
