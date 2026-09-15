@@ -1,4 +1,44 @@
-Independence
+```
+POLICY="pusht_videosaur_1"
+for SEED in 0 1 2; do
+  echo "=== seed=${SEED} start $(date)"
+  python src/plan/run.py \
+    seed=${SEED} \
+    policy=${POLICY} \
+    cache_dir=/home/jichen/.stable_worldmodel \
+    world.history_size=1 \
+    world.frame_skip=1 \
+    plan_config.horizon=5 \
+    plan_config.receding_horizon=5 \
+    plan_config.action_block=5 \
+    eval.eval_budget=50 \
+    output.filename=planning_${POLICY}_seed_${SEED}.txt \
+    eval.dataset_name=pusht_expert_train \
+    eval.goal_offset_steps=25 \
+    wandb.use_wandb=false
+  echo "=== seed=${SEED} done $(date)"
+done
+```
+
+
+
+
+| Seed | Episodes ($N$) | Successes | Success Rate (%) | Wall Time (s) |
+| :---: | :---: | :---: | :---: | :---: |
+| 0 | 50 | 47 | 94.0 | 1253 |
+| 1 | 50 | 44 | 88.0 | 1240 |
+| 2 | 50 | 44 | 88.0 | 1239 |
+| **Total / Mean** | **150** | **135** | **90.0 $\pm$ 3.46\*** | **3732 (62.2 min)** |
+
+
+| Seed | Episodes ($N$) | Successes | Success Rate (%) | Wall Time (s) |
+| :---: | :---: | :---: | :---: | :---: |
+| 0 | 50 | 46 | 92.0% | 890.4s |
+| 1 | 50 | 43 | 86.0% | 881.1s |
+| 2 | 50 | 43 | 86.0% | 881.1s |
+| **Overall** | **150** | **132** | **88.0% $\pm$ 3.46% (sample SD)** | **44.2 min total** |
+
+
 
 
 
@@ -140,13 +180,3 @@ SH
 ```bash
 nohup bash /tmp/cjepa_eval.sh > /tmp/cjepa_eval.log 2>&1 &
 ```
-
-
-
-
-| Seed | Episodes ($N$) | Successes | Success Rate (%) | Wall Time (s) |
-| :---: | :---: | :---: | :---: | :---: |
-| 0 | 50 | 46 | 92.0% | 890.4s |
-| 1 | 50 | 43 | 86.0% | 881.1s |
-| 2 | 50 | 43 | 86.0% | 881.1s |
-| **Overall** | **150** | **132** | **88.0% $\pm$ 3.46% (sample SD)** | **44.2 min total** |
