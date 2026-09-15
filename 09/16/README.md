@@ -2,7 +2,6 @@ What can you do?
 
 Training
 Testing
-Dataset Generation/Feature Extraction/Forecasting
 
 ## `pusht_videosaur_1`
 
