@@ -185,19 +185,3 @@ Created a new directory and Python module inside the repo root (`/home/jichen/Do
   * Checked out commit `221ac820a1adea75bed99df45ab592bb5f42306c` (altering the working tree of this submodule).
 * **`src/third_party/stable-pretraining/`**:
   * Stashed local modifications in `stable_pretraining/data/transforms.py` using `git stash push -m "RGB transform workaround for old torchvision"`.
-
----
-
-### 3. Temporary & Runner Scripts Created
-* **`/tmp/cjepa_eval.sh`**: Bash script created to run evaluation sequentially across seeds `0`, `1`, and `2`.
-* **`/tmp/cjepa_eval.log`**: Log file capturing stdout and stderr from the background evaluation run.
-
----
-
-### 4. Generated Evaluation Output Files
-The evaluation runs produced the following result files in `src/plan/`:
-* `src/plan/planning_pusht_videosaur_1_seed_0.txt`
-* `src/plan/planning_pusht_videosaur_1_seed_1.txt`
-* `src/plan/planning_pusht_videosaur_1_seed_2.txt`
-* `src/plan/smoke.txt` (from initial verification runs)
-
