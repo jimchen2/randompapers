@@ -13,6 +13,6 @@ How to get the real cause? (Variable selection): Dynamic Bayesian Network, Deriv
 
 ---
 
-40:00-1:20:00
+45:53-1:20:00
 
 https://www.youtube.com/watch?v=9DJWJpn0DmU&list=PLa1nV9NMvC6cejJg3LNw47ETopwM-CPgT&index=3
