@@ -1,9 +1,3 @@
-1. Use agents to prepare the environment, it is much easier
-(but Claude code agent locally cost me 8 dollars on one run, around 100 sessions with Opus 5, and it took multiple hours, arena is free but they have a very small cloud platform)
-
-
-
-
 https://arxiv.org/abs/2602.11389
 
 ---
@@ -20,14 +14,12 @@ https://arxiv.org/abs/2602.11389
 - https://arxiv.org/pdf/2602.11389
 
 
-
-23:37-1:20:00
-
-https://www.youtube.com/watch?v=9DJWJpn0DmU&list=PLa1nV9NMvC6cejJg3LNw47ETopwM-CPgT&index=3
-
-
 https://github.com/galilai-group/cjepa
 
+1. Use agents to prepare the environment, it is much easier
+(but Claude code agent locally cost me 8 dollars on one run, around 100 sessions with Opus 5, and it took multiple hours, arena is free but they have a very small cloud platform)
+
+This library is useful: https://github.com/pdenya/ccbashhistory
 
 for arena agents
 
@@ -44,5 +36,3 @@ for arena agents
   setTimeout(expandTargetButtons, 200);
 })();
 ```
-
-This library is useful: https://github.com/pdenya/ccbashhistory
