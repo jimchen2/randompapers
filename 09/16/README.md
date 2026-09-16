@@ -29,7 +29,6 @@ wget -nc https://huggingface.co/HazelNam/CJEPA/resolve/main/pusht_expert_state_m
 ### Running the Script
 
 ```
-cat << 'EOF' > /tmp/jepa_run_train_pusht.sh
 #!/usr/bin/env bash
 set -e
 
@@ -39,6 +38,11 @@ conda activate cjepa
 cd /home/jichen/Downloads/cjepa
 export PYTHONPATH=$(pwd)
 export LD_LIBRARY_PATH=$HOME/miniconda3/envs/cjepa/lib/python3.10/site-packages/nvidia/cudnn/lib:${LD_LIBRARY_PATH:-}
+export NCCL_NVLS_ENABLE=0
+export NCCL_P2P_DISABLE=0
+export NCCL_IB_DISABLE=1
+export WANDB_MODE=disabled
+
 
 python src/train/train_causalwm_AP_node_pusht_slot.py \
     cache_dir="/home/jichen/.stable_worldmodel" \
@@ -65,10 +69,11 @@ python src/train/train_causalwm_AP_node_pusht_slot.py \
     proprio_dir="/home/jichen/Downloads/cjepa/pusht_expert_proprio_meta.pkl" \
     state_dir="/home/jichen/Downloads/cjepa/pusht_expert_state_meta.pkl" \
     use_hungarian_matching=false
-EOF
+```
 
-chmod +x /tmp/jepa_run_train_pusht.sh
-WANDB_MODE=disabled nohup /tmp/jepa_run_train_pusht.sh > /tmp/jepa_train_pusht.log 2>&1 &
+
+```
+nohup /tmp/jepa_run_train_pusht.sh > /tmp/jepa_train_pusht.log 2>&1 &
 ```
 
 
