@@ -29,7 +29,7 @@ wget -nc https://huggingface.co/HazelNam/CJEPA/resolve/main/pusht_expert_state_m
 ### Running the Script
 
 ```
-cat << 'EOF' > /tmp/run_train_pusht.sh
+cat << 'EOF' > /tmp/jepa_run_train_pusht.sh
 #!/usr/bin/env bash
 set -e
 
@@ -67,8 +67,8 @@ python src/train/train_causalwm_AP_node_pusht_slot.py \
     use_hungarian_matching=false
 EOF
 
-chmod +x /tmp/run_train_pusht.sh
-WANDB_MODE=disabled nohup /tmp/run_train_pusht.sh > /tmp/train_pusht.log 2>&1 &
+chmod +x /tmp/jepa_run_train_pusht.sh
+WANDB_MODE=disabled nohup /tmp/jepa_run_train_pusht.sh > /tmp/jepa_train_pusht.log 2>&1 &
 ```
 
 
