@@ -6,6 +6,7 @@ Take two variables: **$X \to Y$** ($Y = bX + e$).
 * **If they are non-Gaussian (not bell curves):** You **can** find the correct arrow ($X \to Y$). The math works in only one direction.
 
 
+Invariance of ODE? 
 
 23:37-1:20:00
 
