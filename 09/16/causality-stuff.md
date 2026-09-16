@@ -4,10 +4,15 @@ Take two variables: **$X \to Y$** ($Y = bX + e$).
 
 * **If both are Gaussian (bell curves):** You **cannot** know if $X \to Y$ or $Y \to X$. The math looks identical both ways.
 * **If they are non-Gaussian (not bell curves):** You **can** find the correct arrow ($X \to Y$). The math works in only one direction.
+---
 
 
-Invariance of ODE? 
+"Ordinary Least Squares" does bad in test data. Causal/Stable Regression does good.
 
-23:37-1:20:00
+How to get the real cause? (Variable selection): Dynamic Bayesian Network, Derivative Matching, Graphical Models fail, Causal kinetics do well here
+
+---
+
+40:00-1:20:00
 
 https://www.youtube.com/watch?v=9DJWJpn0DmU&list=PLa1nV9NMvC6cejJg3LNw47ETopwM-CPgT&index=3
