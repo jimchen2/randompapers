@@ -10,9 +10,3 @@ Take two variables: **$X \to Y$** ($Y = bX + e$).
 "Ordinary Least Squares" does bad in test data. Causal/Stable Regression does good.
 
 How to get the real cause? (Variable selection): Dynamic Bayesian Network, Derivative Matching, Graphical Models fail, Causal kinetics do well here
-
----
-
-45:53-1:20:00
-
-https://www.youtube.com/watch?v=9DJWJpn0DmU&list=PLa1nV9NMvC6cejJg3LNw47ETopwM-CPgT&index=3
