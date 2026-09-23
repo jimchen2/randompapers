@@ -1,9 +1,8 @@
 ## About Mujoco
 
-Raw Mujoco API is hard to use.
-
 Use an API wrapper like Gymnasium. Gymnasium also wraps around many other envs such as Box2D, or custom environments.
 
+---
 
 https://github.com/chuangg/CLEVRER 
 
@@ -16,3 +15,11 @@ Gym environment
 PHYRE dataset
 
 https://github.com/facebookresearch/phyre
+
+---
+
+My datasets
+
+https://huggingface.co/datasets/jimchen2/clevrer-lite-example
+
+https://huggingface.co/datasets/jimchen2/pushT-dataset-example
