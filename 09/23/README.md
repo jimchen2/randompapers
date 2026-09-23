@@ -1,6 +1,6 @@
 ## About Mujoco
 
-Use an API wrapper like Gymnasium. Gymnasium also wraps around many other envs such as Box2D, or custom environments.
+Use an API wrapper like Gymnasium. Gymnasium also wraps around many other envs such as Box2D, or custom environments. Mujoco: I used Humanoid, HalfCheetah, InvertedPendulum
 
 ---
 
