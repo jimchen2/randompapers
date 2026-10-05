@@ -4,9 +4,15 @@
 """Physical pendulum videos + per-frame time-series labels.
 
 Install: python -m pip install numpy pillow imageio imageio-ffmpeg
-Demo:    python simulate_pendulum_videos.py --demo-set --output pendulum_videos --zip
-Batch:   python simulate_pendulum_videos.py --randomize --num-videos 20 --output videos_20
-Single:  python simulate_pendulum_videos.py --theta0 40 --damping 0.12 --output one_video
+Demo:    python pendulum_cjepa.py --demo-set --output pendulum_videos --zip
+Batch:   python pendulum_cjepa.py --randomize --num-videos 20 --output videos_20
+Single:  python pendulum_cjepa.py --theta0 40 --damping 0.12 --output one_video
+C-JEPA: python pendulum_cjepa.py --cjepa-export --randomize --num-videos 8 \
+           --duration 3 --fps 12 --output pendulum_cjepa_test
+
+With --cjepa-export the script also writes a C-JEPA-compatible pre-extracted
+slot pickle.  These are deterministic oracle state slots for an integration
+smoke test, not learned visual embeddings.  The normal MP4/CSV output remains.
 
 Nonlinear ODE: theta'' + damping*theta' + (gravity/length)*sin(theta) = 0.
 RK4 integrates at fps * substeps Hz. A changing light affects the shadow,
@@ -17,6 +23,7 @@ import argparse
 import csv
 import json
 import math
+import pickle
 import shutil
 import zipfile
 from dataclasses import asdict, dataclass, replace
@@ -152,6 +159,64 @@ def write_csv(path, rows):
         writer = csv.DictWriter(f, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
+
+
+def rows_to_cjepa_slots(rows, config, gravity, length, slot_dim):
+    """Convert one trajectory to C-JEPA's [T, S, D] slot interface.
+
+    This is intentionally an *oracle-state* adapter for checking the data and
+    predictor plumbing before training an object-centric visual encoder.  The
+    four consistently ordered slots represent bob/rod, light, shadow, and the
+    fixed scene.  Values are scaled to roughly [-1, 1], then zero-padded to D.
+    """
+    num_slots = 4
+    slots = np.zeros((len(rows), num_slots, slot_dim), dtype=np.float32)
+    slots[:, :, :num_slots] = np.eye(num_slots, dtype=np.float32)[None, :, :]
+    omega_scale = max(math.sqrt(gravity / length), 1e-6)
+    duration = max(rows[-1]["time_s"] + (rows[1]["time_s"] - rows[0]["time_s"]), 1e-6)
+
+    def put(frame, slot, values):
+        values = np.asarray(values, dtype=np.float32)
+        end = num_slots + len(values)
+        if end > slot_dim:
+            raise ValueError(f"slot_dim={slot_dim} is too small for {len(values)} state features")
+        slots[frame, slot, num_slots:end] = values
+
+    for frame, row in enumerate(rows):
+        theta = row["theta_rad"]
+        light_rad = math.radians(row["light_angle_deg"])
+        put(frame, 0, [
+            math.sin(theta), math.cos(theta), theta / math.pi,
+            row["omega_rad_s"] / omega_scale,
+            row["alpha_rad_s2"] / (gravity / length),
+            row["bob_x_m"] / length, row["bob_y_m"] / length,
+            (row["bob_x_world"] - PIVOT[0]) / DRAW_LENGTH,
+            (row["bob_y_world"] - PIVOT[1]) / DRAW_LENGTH,
+            row["energy_j_per_kg"] / max(2 * gravity * length, 1e-6),
+        ])
+        put(frame, 1, [
+            math.sin(light_rad), math.cos(light_rad),
+            (row["light_angle_deg"] - 90.0) / 45.0,
+            (row["light_x_world"] - PIVOT[0]) / 15.0,
+            config.light_amplitude_deg / 45.0,
+            config.light_frequency_hz / 0.2,
+            math.sin(config.light_phase_rad), math.cos(config.light_phase_rad),
+        ])
+        put(frame, 2, [
+            (row["shadow_left_world"] - PIVOT[0]) / 15.0,
+            (row["shadow_right_world"] - PIVOT[0]) / 15.0,
+            (row["mid"] - PIVOT[0]) / 15.0,
+            row["shade"] / 15.0,
+            math.sin(theta), math.cos(theta),
+            math.sin(light_rad), math.cos(light_rad),
+        ])
+        put(frame, 3, [
+            PIVOT[0] / 25.0, PIVOT[1] / 25.0, GROUND_Y / 25.0,
+            gravity / 9.81, length,
+            config.damping_s_inv,
+            row["time_s"] / duration, 1.0,
+        ])
+    return slots
 
 
 def load_font(size, bold=False):
@@ -355,6 +420,14 @@ def main():
     p.add_argument("--light-phase", type=float, default=-90.0, help="light phase in degrees")
     p.add_argument("--save-frames", action="store_true")
     p.add_argument("--zip", action="store_true")
+    p.add_argument(
+        "--cjepa-export", action="store_true",
+        help="also export oracle slots as cjepa_slots.pkl for a C-JEPA smoke test",
+    )
+    p.add_argument(
+        "--slot-dim", type=int, default=32,
+        help="oracle slot width for --cjepa-export (minimum 16; default: 32)",
+    )
     a = p.parse_args()
     floats = (a.duration, a.test_fraction, a.theta0, a.omega0, a.damping, a.gravity,
               a.length, a.light_angle, a.light_amplitude, a.light_frequency, a.light_phase)
@@ -374,6 +447,10 @@ def main():
         p.error("--demo-set creates exactly three videos; omit --num-videos")
     if a.num_videos > 1 and not (a.randomize or a.demo_set):
         p.error("use --randomize for multiple videos, to avoid identical sequences")
+    if a.slot_dim < 16:
+        p.error("--slot-dim must be at least 16")
+    if a.cjepa_export and (not a.randomize or a.num_videos < 2):
+        p.error("--cjepa-export requires --randomize and --num-videos >= 2 for train/val splits")
     output = a.output.resolve()
     archive = output.with_suffix(".zip")
     if output.exists() and (not output.is_dir() or any(output.iterdir())):
@@ -415,12 +492,17 @@ def main():
 
     ntest = 0 if len(configs) == 1 else min(len(configs)-1, max(1, round(len(configs)*a.test_fraction)))
     test_indices = set(rng.permutation(len(configs))[:ntest].tolist())
-    for folder in ("videos/train", "videos/test", "timeseries"):
+    eval_split = "val" if a.cjepa_export else "test"
+    for folder in ("videos/train", f"videos/{eval_split}", "timeseries"):
         (output / folder).mkdir(parents=True, exist_ok=True)
     index = []
+    slot_data = {"train": {}, "val": {}} if a.cjepa_export else None
     for i, (config, rows) in enumerate(zip(configs, series)):
-        video_id = f"clip_{i:04d}"
-        split = "test" if i in test_indices else "train"
+        split = eval_split if i in test_indices else "train"
+        # Validation IDs use the same 10000 offset as C-JEPA's CLEVRER adapter,
+        # which also makes the MP4 tree easy to convert to Stable-WorldModel.
+        episode_id = 10000 + i if a.cjepa_export and split == "val" else i
+        video_id = f"video_{episode_id:05d}" if a.cjepa_export else f"clip_{i:04d}"
         video_path = f"videos/{split}/{video_id}.mp4"
         csv_path = f"timeseries/{video_id}.csv"
         frame_folder = output / "frames" / video_id
@@ -433,16 +515,33 @@ def main():
                 if a.save_frames:
                     image.save(frame_folder / f"{row['frame']:06d}.png")
         write_csv(output / csv_path, rows)
+        if a.cjepa_export:
+            slot_key = f"{episode_id}_pixels.mp4"
+            slot_data[split][slot_key] = rows_to_cjepa_slots(
+                rows, config, a.gravity, a.length, a.slot_dim
+            )
         index.append({"video_id": video_id, "split": split, "video_path": video_path,
                       "csv_path": csv_path, "frames": frames, "duration_s": duration,
                       "fps": a.fps, "size_px": a.size, "gravity_m_s2": a.gravity,
                       "length_m": a.length, **asdict(config)})
         print(f"Saved {video_id}: {config.name}, {frames} frames, {split}", flush=True)
     write_csv(output / "index.csv", index)
+    if a.cjepa_export:
+        slot_data["_meta"] = {
+            "format": "C-JEPA pre-extracted slots",
+            "shape": "[frames, num_slots, slot_dim]",
+            "num_slots": 4,
+            "slot_dim": a.slot_dim,
+            "source": "oracle simulator state; integration smoke test only",
+            "splits": {name: len(slot_data[name]) for name in ("train", "val")},
+        }
+        with (output / "cjepa_slots.pkl").open("wb") as f:
+            pickle.dump(slot_data, f, protocol=pickle.HIGHEST_PROTOCOL)
     metadata = {
         "dataset": "physical_pendulum_videos", "seed": a.seed,
         "generation_mode": "demo" if a.demo_set else "random" if a.randomize else "single",
-        "num_videos": len(configs), "train_videos": len(configs)-ntest, "test_videos": ntest,
+        "num_videos": len(configs), "train_videos": len(configs)-ntest,
+        f"{eval_split}_videos": ntest,
         "requested_duration_s": a.duration, "duration_s": duration,
         "fps": a.fps, "frames_per_video": frames, "image_size": [a.size, a.size],
         "codec": "H.264", "pixel_format": "yuv420p", "audio": False,
@@ -455,11 +554,31 @@ def main():
         "timing": "CSV row n and decoded MP4 frame n both sample time n/fps",
         "split_unit": "whole video", "paths_relative_to": "dataset root",
         "normalized_labels": False,
+        "cjepa_export": a.cjepa_export,
+        "cjepa_slots": ({
+            "path": "cjepa_slots.pkl", "num_slots": 4, "slot_dim": a.slot_dim,
+            "kind": "oracle simulator state (smoke-test adapter, not visual embeddings)",
+        } if a.cjepa_export else None),
     }
     (output / "metadata.json").write_text(json.dumps(metadata, indent=2)+"\n", encoding="utf-8")
-    (output / "README.md").write_text(README_TEXT, encoding="utf-8")
+    dataset_readme = README_TEXT
+    if a.cjepa_export:
+        dataset_readme += """
+
+## C-JEPA smoke-test export
+
+`cjepa_slots.pkl` has the exact nested structure expected by
+`src/train/train_causalwm_from_clevrer_slot.py`:
+`{split: {video_key: float32[T, 4, slot_dim]}}` for `train` and `val`.
+The four slots are deterministic simulator-state slots (bob/rod, light,
+shadow, scene). They verify C-JEPA data loading and prediction, but they are
+**not** learned visual slots. For visual learning, train or fine-tune an
+object-centric encoder on the MP4 files and replace this pickle with its
+extracted slots.
+"""
+    (output / "README.md").write_text(dataset_readme, encoding="utf-8")
     (output / "LICENSE").write_text(LICENSE_TEXT, encoding="utf-8")
-    shutil.copyfile(__file__, output / "simulate_pendulum_videos.py")
+    shutil.copyfile(__file__, output / "pendulum_cjepa.py")
     if a.demo_set:
         print("Rendering comparison preview...", flush=True)
         make_demo_preview(output, configs, series, a.fps, duration, a.substeps)
