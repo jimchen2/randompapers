@@ -20,5 +20,5 @@ python src/train/train_causalwm_from_clevrer_slot.py \
     videosaur.NUM_SLOTS=4 \
     videosaur.SLOT_DIM=128 \
     predictor.heads=16 \
-    embedding_dir="../pendulum_videosaur_4slots.pkl"
+    embedding_dir="./pendulum_videosaur_4slots.pkl"
 ```
