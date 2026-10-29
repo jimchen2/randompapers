@@ -14,7 +14,7 @@ https://huggingface.co/jimchen2/jimchen2-blue-pendulum-output
 
 ## 1024
 
-It seems that changing the shadow color to blue doesn't help.
+I changed the shadow color to blue and trained it again. However, it seems that changing the shadow color to blue caused the training to fall apart somehow.
 
 ## 1028
 
@@ -29,6 +29,8 @@ The new trainings did worse. One run did not recognize anything. Two more runs g
 Should I add more sample videos? Probably not.
 
 ## 1029
+
+My params are in `pendulum_dinov2_hf.yml` in the repo.
 
 So I tried to read the Videosaur paper again. Here are some other params to change
 
