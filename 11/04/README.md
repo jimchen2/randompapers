@@ -45,3 +45,6 @@ Feature reconstruction weight: Synthetic/simple data: 0.0, Real-world data: 0.1.
 
 Time-shift: Default is 1. If your objects move slowly, increase to 2 or 3. I think 1 is ok here.
 
+
+
+
