@@ -30,15 +30,12 @@ Should I add more sample videos? Probably not.
 
 ## 1029
 
-So I tried to read the Videosaur paper again.
-
-Here are some other params to change
+So I tried to read the Videosaur paper again. Here are some other params to change
 
 1. Decoder Type: switch from Mixer to MLP. It should have a stronger bias to separate objects.
 2. Number of Slots: Increase to 5/6. The model is much more stable when given extra slots, while fewer slots causes the objects to merge.
 3. Slot Dimension: Shrink it from 128 to 64 or 32 to prevent a single slot from having enough memory to hold all objects at the same time.
 4. ViT Backbone: This network chops your image into a grid of squares (patches) and turns each square into a list of numbers. Model Size: ViT-Base vs. ViT-Small. Patch Size 16: Chops the image into 16x16 pixel squares. Patch Size 8: Chops the image into 8x8 pixel squares. 
-
 
 Softmax temperature: Synthetic/simple data: 0.075, Real-world data: 0.25. This is synthetic data as well, so should be good.
 
@@ -46,5 +43,3 @@ Feature reconstruction weight: Synthetic/simple data: 0.0, Real-world data: 0.1.
 
 Time-shift: Default is 1. If your objects move slowly, increase to 2 or 3. I think 1 is ok here.
 
-
-7. **ViT Backbone (`ViT-Base`):** Ensure you are using `ViT-Base` (not `Small`) and extracting **`Key`** features for the similarity loss, which the paper shows is required for stable training with the Mixer (Appendix B.4, Figure 6c).
