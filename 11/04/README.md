@@ -52,3 +52,7 @@ It still better stay 196x196
 https://huggingface.co/datasets/jimchen2/pendulum-1102
 
 I need to look and change the config file
+
+Line 19 (globals.SIM_WEIGHT): Changed from 0.3 to 1.0.
+Line 64 (model.loss_weights.loss_featrec): Changed from 1.0 to 0.1.
+
