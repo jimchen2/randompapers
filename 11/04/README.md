@@ -47,3 +47,8 @@ Time-shift: Default is 1. If your objects move slowly, increase to 2 or 3. I thi
 
 ## 1102
 
+It still better stay 196x196
+
+https://huggingface.co/datasets/jimchen2/pendulum-1102
+
+I need to look and change the config file
