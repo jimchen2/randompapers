@@ -15,3 +15,5 @@ Mask add a little casual knowledge for the some child
 Slot, mask, change the mask thing, use the mask thing to predict the
 
 Know how to casual jepa how did it mask the things
+
+https://github.com/google-research/slot-attention-video
