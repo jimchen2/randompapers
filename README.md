@@ -7,3 +7,5 @@ The 128 frame this is a hyperparameter: like from 100 frames or like or maybe lo
 Generate Q & A for the final things as well
 
 See how it for the descriptive accuracy
+
+Show like the ALOE Q & A result is worse probably
