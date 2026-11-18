@@ -10,5 +10,6 @@ See how it for the descriptive accuracy
 
 Show like the ALOE Q & A result is worse probably
 
-
 Mask add a little casual knowledge for the some child
+
+Slot, mask, change the mask thing, use the mask thing to predict the
