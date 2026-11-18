@@ -9,3 +9,6 @@ Generate Q & A for the final things as well
 See how it for the descriptive accuracy
 
 Show like the ALOE Q & A result is worse probably
+
+
+Mask add a little casual knowledge for the some child
